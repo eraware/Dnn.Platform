@@ -324,6 +324,7 @@ namespace DotNetNuke.Entities.Portals
             setting = settings.GetValueOrDefault("DataConsentDelayMeasurement", "d");
             portalSettings.DataConsentDelayMeasurement = setting;
 
+            portalSettings.Styles = PortalStylesController.Instance().GetPortalStyles(portalSettings.PortalId);
         }
 
         protected virtual void UpdateSkinSettings(TabInfo activeTab, PortalSettings portalSettings)
