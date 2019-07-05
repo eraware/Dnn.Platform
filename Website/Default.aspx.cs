@@ -730,40 +730,41 @@ namespace DotNetNuke.Framework
         {
             string cacheKey = $"Dnn_Css_Custom_Properties_{PortalSettings.PortalId}";
             string cache = Common.Utilities.DataCache.GetCache<string>(cacheKey);
-            if (string.IsNullOrEmpty(cache))
+
+            if (!string.IsNullOrEmpty(cache))
             {
-                var portalStyles = PortalSettings.Styles;
-                var sb = new StringBuilder();
-
-                sb
-                .AppendLine(@"<style type=""text/css"">")
-                .AppendLine(@":root {")
-
-                .AppendLine($"--dnn-color-primary: #{portalStyles.PrimaryColor.MinifiedHex};")
-                .AppendLine($"--dnn-color-primary-light: #{portalStyles.PrimaryColorLight.MinifiedHex};")
-                .AppendLine($"--dnn-color-primary-dark: #{portalStyles.PrimaryColorDark.MinifiedHex};")
-                .AppendLine($"--dnn-color-primary-contrast: #{portalStyles.PrimaryColorContrast.MinifiedHex};")
-
-                .AppendLine($"--dnn-color-secondary: #{portalStyles.SecondaryColor.MinifiedHex};")
-                .AppendLine($"--dnn-color-secondary-light: #{portalStyles.SecondaryColorLight.MinifiedHex};")
-                .AppendLine($"--dnn-color-secondary-dark: #{portalStyles.SecondaryColorDark.MinifiedHex};")
-                .AppendLine($"--dnn-color-secondary-contrast: #{portalStyles.SecondaryColorContrast.MinifiedHex};")
-
-                .AppendLine($"--dnn-color-tertiary: #{portalStyles.TertiaryColor.MinifiedHex};")
-                .AppendLine($"--dnn-color-tertiary-light: #{portalStyles.TertiaryColorLight.MinifiedHex};")
-                .AppendLine($"--dnn-color-tertiary-dark: #{portalStyles.TertiaryColorDark.MinifiedHex};")
-                .AppendLine($"--dnn-color-tertiary-contrast: #{portalStyles.TertiaryColorContrast.MinifiedHex};")
-
-                .AppendLine($"--dnn-default-radius: {portalStyles.DefaultRadius}px;")
-                .AppendLine($"--dnn-button-radius: {portalStyles.ButtonRadius}px;")
-
-                .AppendLine(@"}")
-                .AppendLine(@"</style>");
-
-                Common.Utilities.DataCache.SetCache(cacheKey, sb.ToString());
+                return cache;
             }
-            cache = Common.Utilities.DataCache.GetCache<string>(cacheKey);
-            return cache;
+           
+            var portalStyles = PortalSettings.Styles;
+            var sb = new StringBuilder();
+            sb
+            .AppendLine(@"<style type=""text/css"">")
+            .AppendLine(@":root {")
+
+            .AppendLine($"--dnn-color-primary: #{portalStyles.PrimaryColor.MinifiedHex};")
+            .AppendLine($"--dnn-color-primary-light: #{portalStyles.PrimaryColorLight.MinifiedHex};")
+            .AppendLine($"--dnn-color-primary-dark: #{portalStyles.PrimaryColorDark.MinifiedHex};")
+            .AppendLine($"--dnn-color-primary-contrast: #{portalStyles.PrimaryColorContrast.MinifiedHex};")
+
+            .AppendLine($"--dnn-color-secondary: #{portalStyles.SecondaryColor.MinifiedHex};")
+            .AppendLine($"--dnn-color-secondary-light: #{portalStyles.SecondaryColorLight.MinifiedHex};")
+            .AppendLine($"--dnn-color-secondary-dark: #{portalStyles.SecondaryColorDark.MinifiedHex};")
+            .AppendLine($"--dnn-color-secondary-contrast: #{portalStyles.SecondaryColorContrast.MinifiedHex};")
+
+            .AppendLine($"--dnn-color-tertiary: #{portalStyles.TertiaryColor.MinifiedHex};")
+            .AppendLine($"--dnn-color-tertiary-light: #{portalStyles.TertiaryColorLight.MinifiedHex};")
+            .AppendLine($"--dnn-color-tertiary-dark: #{portalStyles.TertiaryColorDark.MinifiedHex};")
+            .AppendLine($"--dnn-color-tertiary-contrast: #{portalStyles.TertiaryColorContrast.MinifiedHex};")
+
+            .AppendLine($"--dnn-default-radius: {portalStyles.DefaultRadius}px;")
+            .AppendLine($"--dnn-button-radius: {portalStyles.ButtonRadius}px;")
+
+            .AppendLine(@"}")
+            .AppendLine(@"</style>");
+
+            Common.Utilities.DataCache.SetCache(cacheKey, sb.ToString());
+            return sb.ToString();
         }
 
         /// -----------------------------------------------------------------------------
