@@ -1,4 +1,11 @@
-﻿using System;
+﻿#region copyright
+
+// Copyright (c) .NET Foundation. All rights reserved.
+// Licensed under the MIT License. See LICENSE file in the project root for full license information.
+
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +13,9 @@ using System.Threading.Tasks;
 
 namespace DotNetNuke.Entities.Portals
 {
+    /// <summary>
+    /// Provides css custom properties to customize the Dnn UI in the platform, themes and modules for a overall consistent look
+    /// </summary>
     public class PortalStyles
     {
         /// <summary>
