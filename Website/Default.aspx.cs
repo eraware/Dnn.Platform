@@ -746,16 +746,26 @@ namespace DotNetNuke.Framework
             .AppendLine($"--dnn-color-primary-light: #{portalStyles.PrimaryColorLight.MinifiedHex};")
             .AppendLine($"--dnn-color-primary-dark: #{portalStyles.PrimaryColorDark.MinifiedHex};")
             .AppendLine($"--dnn-color-primary-contrast: #{portalStyles.PrimaryColorContrast.MinifiedHex};")
+            .AppendLine($"--dnn-color-primary-r: {portalStyles.PrimaryColor.Red};")
+            .AppendLine($"--dnn-color-primary-g: {portalStyles.PrimaryColor.Green};")
+            .AppendLine($"--dnn-color-primary-b: {portalStyles.PrimaryColor.Blue};")
+
 
             .AppendLine($"--dnn-color-secondary: #{portalStyles.SecondaryColor.MinifiedHex};")
             .AppendLine($"--dnn-color-secondary-light: #{portalStyles.SecondaryColorLight.MinifiedHex};")
             .AppendLine($"--dnn-color-secondary-dark: #{portalStyles.SecondaryColorDark.MinifiedHex};")
             .AppendLine($"--dnn-color-secondary-contrast: #{portalStyles.SecondaryColorContrast.MinifiedHex};")
+            .AppendLine($"--dnn-color-secondary-r: {portalStyles.SecondaryColor.Red};")
+            .AppendLine($"--dnn-color-secondary-g: {portalStyles.SecondaryColor.Green};")
+            .AppendLine($"--dnn-color-secondary-b: {portalStyles.SecondaryColor.Blue};")
 
             .AppendLine($"--dnn-color-tertiary: #{portalStyles.TertiaryColor.MinifiedHex};")
             .AppendLine($"--dnn-color-tertiary-light: #{portalStyles.TertiaryColorLight.MinifiedHex};")
             .AppendLine($"--dnn-color-tertiary-dark: #{portalStyles.TertiaryColorDark.MinifiedHex};")
             .AppendLine($"--dnn-color-tertiary-contrast: #{portalStyles.TertiaryColorContrast.MinifiedHex};")
+            .AppendLine($"--dnn-color-tertiary-r: {portalStyles.TertiaryColor.Red};")
+            .AppendLine($"--dnn-color-tertiary-g: {portalStyles.TertiaryColor.Green};")
+            .AppendLine($"--dnn-color-tertiary-b: {portalStyles.TertiaryColor.Blue};")
 
             .AppendLine($"--dnn-default-radius: {portalStyles.DefaultRadius}px;")
             .AppendLine($"--dnn-button-radius: {portalStyles.ButtonRadius}px;")
