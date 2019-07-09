@@ -1,4 +1,6 @@
-﻿using DotNetNuke.DependencyInjection;
+﻿using System;
+using DotNetNuke.DependencyInjection;
+using DotNetNuke.Entities.Portals;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.UI.Modules.Html5;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,13 @@ namespace DotNetNuke
             services.AddSingleton<WebFormsModuleControlFactory>();
             services.AddSingleton<Html5ModuleControlFactory>();
             services.AddSingleton<ReflectedModuleControlFactory>();
+
+            ConfigureEntityServices(services);
+        }
+
+        private void ConfigureEntityServices(IServiceCollection services)
+        {
+            services.AddSingleton<IPortalStylesController, PortalStylesController>();
         }
     }
 }

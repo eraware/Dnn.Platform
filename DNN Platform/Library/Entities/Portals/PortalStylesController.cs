@@ -36,20 +36,6 @@ namespace DotNetNuke.Entities.Portals
         private const string BUTTON_RADIUS = "ButtonRadius";
 
         /// <summary>
-        /// Gets an instance of the PortalStylescontroller
-        /// </summary>
-        /// <returns></returns>
-        public static IPortalStylesController Instance()
-        {
-            var controller = ComponentFactory.GetComponent<IPortalStylesController>("PortalStylesController");
-            if (controller == null)
-            {
-                ComponentFactory.RegisterComponent<IPortalStylesController, PortalStylesController>("PortalStylesController");
-            }
-            return ComponentFactory.GetComponent<IPortalStylesController>("PortalStylesController");
-        }
-
-        /// <summary>
         /// Gets the portal styles for the given portal
         /// </summary>
         /// <param name="portalId">The Id of the portal</param>
