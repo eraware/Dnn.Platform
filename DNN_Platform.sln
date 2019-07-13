@@ -451,6 +451,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetNuke.ModulePipeline",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetNuke.DependencyInjection", "DNN Platform\DotNetNuke.DependencyInjection\DotNetNuke.DependencyInjection.csproj", "{0FCA217A-5F9A-4F5B-A31B-86D64AE65198}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dnn.Html.CustomElements", "DNN Platform\Dnn.Html.CustomElements\Dnn.Html.CustomElements.csproj", "{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Cloud_Debug|Any CPU = Cloud_Debug|Any CPU
@@ -1625,6 +1627,30 @@ Global
 		{0FCA217A-5F9A-4F5B-A31B-86D64AE65198}.Release-Net45|Any CPU.Build.0 = Release|Any CPU
 		{0FCA217A-5F9A-4F5B-A31B-86D64AE65198}.Release-Net45|x86.ActiveCfg = Release|Any CPU
 		{0FCA217A-5F9A-4F5B-A31B-86D64AE65198}.Release-Net45|x86.Build.0 = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Debug|x86.ActiveCfg = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Debug|x86.Build.0 = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Release|Any CPU.Build.0 = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Release|x86.ActiveCfg = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Cloud_Release|x86.Build.0 = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug|x86.Build.0 = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug-Net45|Any CPU.ActiveCfg = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug-Net45|Any CPU.Build.0 = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug-Net45|x86.ActiveCfg = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Debug-Net45|x86.Build.0 = Debug|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release|x86.ActiveCfg = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release|x86.Build.0 = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release-Net45|Any CPU.ActiveCfg = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release-Net45|Any CPU.Build.0 = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release-Net45|x86.ActiveCfg = Release|Any CPU
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97}.Release-Net45|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1716,6 +1742,7 @@ Global
 		{ADB57FFD-677C-4C30-9723-6EE0A475315B} = {9A986091-4238-4804-8C86-6A9A005F72C2}
 		{C4823821-CFB3-4394-851F-E39D0974EFBD} = {29273BE6-1AA8-4970-98A0-41BFFEEDA67B}
 		{0FCA217A-5F9A-4F5B-A31B-86D64AE65198} = {29273BE6-1AA8-4970-98A0-41BFFEEDA67B}
+		{E44E16EE-3EB6-4B66-9930-D5F1FAE2EE97} = {29273BE6-1AA8-4970-98A0-41BFFEEDA67B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {46B6A641-57EB-4B19-B199-23E6FC2AB40B}
