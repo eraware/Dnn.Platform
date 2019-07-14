@@ -14,18 +14,15 @@ import { ColorInfo } from '../../utils/ColorInfo';
 })
 export class DnnColorPicker {
 
-    private saturationLightnessBox?: HTMLDivElement;
-
     @Element() el: HTMLElement;
+    private saturationLightnessBox?: HTMLDivElement;
+    private hueRange?: HTMLDivElement;
 
     @State() color: ColorInfo;
-
-    
 
     componentWillLoad() {
         this.color = new ColorInfo();
     }
-
     
     getHex() {
        return this.getDoublet(this.color.red) + this.getDoublet(this.color.green) + this.getDoublet(this.color.blue);
@@ -71,8 +68,118 @@ export class DnnColorPicker {
         window.removeEventListener('mouseup', this.handleSaturationLightnessMouseUp);
     }
 
+    handleHueMouseDown = (e) => {
+        e.preventDefault();
+        this.handleDragHue(e);
+        window.addEventListener('mousemove', this.handleDragHue);
+        window.addEventListener('mouseup', this.handleHueMouseUp);        
+    }
+
+    handleHueMouseUp = () => {
+        window.removeEventListener('mousemove', this.handleDragHue);
+        window.removeEventListener('mouseup', this.handleHueMouseUp); 
+    }
+
+    handleDragHue = (e) => {
+        const rect = this.hueRange.getBoundingClientRect();        
+
+        let x = e.clientX - rect.left;
+        if (x < 0) { x = 0}
+        if (x > rect.width) { x = rect.width}
+        x = x/rect.width*360;        
+
+        const newColor = new ColorInfo();
+        newColor.hue = x;
+        newColor.saturation = this.color.saturation;
+        newColor.lightness = this.color.lightness;
+        this.color = newColor;
+    }
+
+    handleComponentValueChange = (e, channel) => {
+        let value = parseInt(e.target.value);
+        if (isNaN(value)) { return }
+        const newColor = new ColorInfo();
+        if (value){
+            if (value < 0) { value = 0; }
+            if (value > 255) { value = 255; }
+        }
+        let r = this.color.red;
+        let g = this.color.green;
+        let b = this.color.blue;
+        switch (channel) {
+            case 'red':
+                r = value;
+                break;
+            case 'green':
+                g = value;
+                break;
+            case 'blue':
+                b = value;
+                break;
+            default:
+                break;
+        }
+        newColor.green = g;
+        newColor.red = r;
+        newColor.blue = b;
+        this.color = newColor;
+    }
+
+    handleHSLChange = (e, component) => {        
+        let value = parseInt(e.target.value);
+        if (isNaN(value)) {return}
+        const newColor = new ColorInfo();
+        if (value) {            
+            let h = this.color.hue;
+            let s = this.color.saturation;
+            let l = this.color.lightness;
+            switch (component) {
+                case "hue":
+                    if (value < 0) { value = 0}
+                    if (value > 359) { value = 0}
+                    h = value;
+                    break;
+                case "saturation":
+                    if (value < 0) { value = 0}
+                    if (value > 100) { value = 100}
+                    s = value / 100;
+                    break;
+                case "lightness":
+                    if (value < 0) { value = 0}
+                    if (value > 100) { value = 100}
+                    l = value / 100;
+                    break;            
+                default:
+                    break;                
+            }
+            newColor.hue = h;
+            newColor.saturation = s;
+            newColor.lightness = l;
+            this.color = newColor;
+        }
+    }
+
+    handleHexChange(e){
+        let value: string = e.target.value;
+        const newColor = new ColorInfo();
+        if (value.match(/^(?:[\da-f]{3}|[\da-f]{6})$/i)) {
+            if (value.length === 3){
+                let expanded = value[0] + value[0] + value[1] + value[1] + value[2] + value [2];
+                value = expanded;
+            }
+            newColor.red = parseInt(value.substr(0,2), 16);
+            newColor.green = parseInt(value.substr(2,2), 16);
+            newColor.blue = parseInt(value.substr(4,2), 16);
+        }
+        else{
+            newColor.red = this.color.red;
+            newColor.green = this.color.green;
+            newColor.blue = this.color.blue;
+        }
+        this.color = newColor;
+    }
+
     render() {
-        console.log(this.color)
         const hue = this.color.hue;
         const saturation = this.color.saturation;
         const lightness = this.color.lightness;
@@ -94,23 +201,39 @@ export class DnnColorPicker {
                             }}
                         />
                     </div>
-                    <div class="dnn-color-hue">
+                    <div class="dnn-color-hue"
+                        ref={(element) => this.hueRange = element as HTMLDivElement}
+                        onMouseDown={this.handleHueMouseDown.bind(this)}
+                    >
                         <button class="dnn-hue-picker"
                             style={{left: (hue/359*100).toString() + "%"}}
                         />
                     </div>
                 </div>
                 <div class="dnn-color-fields">
-                    <input type="number" min="0" max="255" step="1" class="red" value={red}></input>
-                    <input type="number" min="0" max="255" class="green" value={green}></input>
-                    <input type="number" min="0" max="255" class="blue" value={blue}></input>
-                    H: <input type="number" min="0" max="259" value={Math.round(hue*100)}></input>
-                    S: <input type="number" min="0" max="100" value={Math.round(saturation*100)}></input>
-                    L: <input type="number" min="0" max="100" value={Math.round(lightness*100)}></input>
+                    <input type="number" min="0" max="255" step="1" class="red" value={red} 
+                        onChange={(e) => this.handleComponentValueChange(e, 'red')}
+                    />
+                    <input type="number" min="0" max="255" step="1" class="green" value={green} 
+                        onChange={(e) => this.handleComponentValueChange(e, 'green')}
+                    />
+                    <input type="number" min="0" max="255" step="1" class="blue" value={blue} 
+                        onChange={(e) => this.handleComponentValueChange(e, 'blue')}
+                    />
+                    H: <input type="number" min="0" max="359" value={Math.round(hue)}                         
+                        onChange={(e) => this.handleHSLChange(e, 'hue')}
+                    />
+                    S: <input type="number" min="0" max="100" value={Math.round(saturation*100)} 
+                        onChange={(e) => this.handleHSLChange(e, 'saturation')}
+                    />
+                    L: <input type="number" min="0" max="100" value={Math.round(lightness*100)} 
+                        onChange={(e) => this.handleHSLChange(e, 'lightness')}
+                    />
                     <div class="string">
                         <input type="text" 
                             value={this.getHex()}
                             style={{backgroundColor: "#" + this.getHex(), color: contrastColor}}
+                            onChange={(e) => this.handleHexChange(e)}
                         />
                         <i class="symbol" style={{color: contrastColor}}>#</i>
                         <button class="copy" style={{color: contrastColor}}>
