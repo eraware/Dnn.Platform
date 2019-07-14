@@ -213,7 +213,6 @@ export class DnnColorPicker {
         const red = this.color.red;
         const green = this.color.green;
         const blue = this.color.blue;
-        const contrastColor = "#" + this.color.contrastColor;
 
         return (
             <div class="dnn-color-picker">
@@ -265,19 +264,19 @@ export class DnnColorPicker {
                     <div class="dnn-hsl-color-fields" style={{display: this.hslDisplay}}>
                         <div class="dnn-hsl-color-field">
                             <label>H</label>
-                            <input type="number" min="0" max="359" value={hue}
+                            <input type="number" min="0" max="359" step={1} value={Math.round(hue)}
                                 onChange={(e) => this.handleHSLChange(e, 'hue')}
                             />
                         </div>
                         <div class="dnn-hsl-color-field">
                             <label>S</label>
-                            <input type="number" min="0" max="100" value={saturation}
+                            <input type="number" min="0" max="100" step={1} value={Math.round(saturation*100)}
                                 onChange={(e) => this.handleHSLChange(e, 'saturation')}
                             />
                         </div>
                         <div class="dnn-hsl-color-field">
                             <label>L</label>
-                            <input type="number" min="0" max="100" value={lightness}
+                            <input type="number" min="0" max="100" step={1} value={Math.round(lightness*100)}
                                 onChange={(e) => this.handleHSLChange(e, 'lightness')}
                             />
                         </div>
@@ -288,23 +287,21 @@ export class DnnColorPicker {
                     <div class="dnn-hex-color-fields" style={{display: this.hexDisplay}}>
                         <div class="dnn-hex-color-field">
                             <label>HEX</label>
-                            <input type="text" value={this.getHex()} />
+                            <div class="hex-input">
+                                <input type="text" 
+                                    value={this.getHex()}
+                                    onChange={(e) => this.handleHexChange(e)}
+                                />
+                                <button class="copy">
+                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg>
+                                </button>
+                            </div>
                         </div>
                         <div class="dnn-color-mode-switch">
                             <button id="hex-switch" onClick={this.switchColorMode.bind(this)}>&#8597;</button>
                         </div>
                     </div>
-                    <div class="string">
-                        <input type="text" 
-                            value={this.getHex()}
-                            style={{backgroundColor: "#" + this.getHex(), color: contrastColor}}
-                            onChange={(e) => this.handleHexChange(e)}
-                        />
-                        <i class="symbol" style={{color: contrastColor}}>#</i>
-                        <button class="copy" style={{color: contrastColor}}>
-                            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg>
-                        </button>
-                    </div>
+                    
                 </div>
 
             </div>
