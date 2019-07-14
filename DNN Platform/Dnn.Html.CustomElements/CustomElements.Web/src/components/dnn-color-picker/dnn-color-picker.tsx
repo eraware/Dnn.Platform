@@ -19,6 +19,9 @@ export class DnnColorPicker {
     private hueRange?: HTMLDivElement;
 
     @State() color: ColorInfo;
+    @State() rgbDisplay: string = "flex";
+    @State() hslDisplay: string = "none";
+    @State() hexDisplay: string = "none";
 
     componentWillLoad() {
         this.color = new ColorInfo();
@@ -179,6 +182,30 @@ export class DnnColorPicker {
         this.color = newColor;
     }
 
+    switchColorMode(e) {
+        switch(e.target.id) {
+            case "rgb-switch":
+                this.rgbDisplay = "none";
+                this.hslDisplay = "none";
+                this.hexDisplay = "flex";
+                break;
+            case "hex-switch":
+                this.rgbDisplay = "none";
+                this.hslDisplay = "flex";
+                this.hexDisplay = "none";
+                break;
+            case "hsl-switch":
+                this.rgbDisplay = "flex";
+                this.hslDisplay = "none";
+                this.hexDisplay = "none";
+                break;
+            default:
+                this.rgbDisplay = "flex";
+                this.hslDisplay = "none";
+                this.hexDisplay = "none";
+            }
+    }
+
     render() {
         const hue = this.color.hue;
         const saturation = this.color.saturation;
@@ -187,6 +214,7 @@ export class DnnColorPicker {
         const green = this.color.green;
         const blue = this.color.blue;
         const contrastColor = "#" + this.color.contrastColor;
+
         return (
             <div class="dnn-color-picker">
                 <div class="dnn-color-sliders">
@@ -211,24 +239,61 @@ export class DnnColorPicker {
                     </div>
                 </div>
                 <div class="dnn-color-fields">
-                    <input type="number" min="0" max="255" step="1" class="red" value={red} 
-                        onChange={(e) => this.handleComponentValueChange(e, 'red')}
-                    />
-                    <input type="number" min="0" max="255" step="1" class="green" value={green} 
-                        onChange={(e) => this.handleComponentValueChange(e, 'green')}
-                    />
-                    <input type="number" min="0" max="255" step="1" class="blue" value={blue} 
-                        onChange={(e) => this.handleComponentValueChange(e, 'blue')}
-                    />
-                    H: <input type="number" min="0" max="359" value={Math.round(hue)}                         
-                        onChange={(e) => this.handleHSLChange(e, 'hue')}
-                    />
-                    S: <input type="number" min="0" max="100" value={Math.round(saturation*100)} 
-                        onChange={(e) => this.handleHSLChange(e, 'saturation')}
-                    />
-                    L: <input type="number" min="0" max="100" value={Math.round(lightness*100)} 
-                        onChange={(e) => this.handleHSLChange(e, 'lightness')}
-                    />
+                    <div class="dnn-rgb-color-fields" style={{display: this.rgbDisplay}}>
+                        <div class="dnn-rgb-color-field">
+                            <label>R</label>
+                            <input type="number" min="0" max="255" step="1" class="red" value={red}
+                                onChange={(e) => this.handleComponentValueChange(e, 'red')}
+                            />
+                        </div>
+                        <div class="dnn-rgb-color-field">
+                            <label>G</label>
+                            <input type="number" min="0" max="255" class="green" value={green}
+                                onChange={(e) => this.handleComponentValueChange(e, 'green')}
+                            />
+                        </div>
+                        <div class="dnn-rgb-color-field">
+                            <label>B</label>
+                            <input type="number" min="0" max="255" class="blue" value={blue}
+                                onChange={(e) => this.handleComponentValueChange(e, 'blue')}
+                            />
+                        </div>
+                        <div class="dnn-color-mode-switch">
+                            <button id="rgb-switch" onClick={this.switchColorMode.bind(this)}>&#8597;</button>
+                        </div>
+                    </div>
+                    <div class="dnn-hsl-color-fields" style={{display: this.hslDisplay}}>
+                        <div class="dnn-hsl-color-field">
+                            <label>H</label>
+                            <input type="number" min="0" max="359" value={hue}
+                                onChange={(e) => this.handleHSLChange(e, 'hue')}
+                            />
+                        </div>
+                        <div class="dnn-hsl-color-field">
+                            <label>S</label>
+                            <input type="number" min="0" max="100" value={saturation}
+                                onChange={(e) => this.handleHSLChange(e, 'saturation')}
+                            />
+                        </div>
+                        <div class="dnn-hsl-color-field">
+                            <label>L</label>
+                            <input type="number" min="0" max="100" value={lightness}
+                                onChange={(e) => this.handleHSLChange(e, 'lightness')}
+                            />
+                        </div>
+                        <div class="dnn-color-mode-switch">
+                            <button id="hsl-switch" onClick={this.switchColorMode.bind(this)}>&#8597;</button>
+                        </div>
+                    </div>
+                    <div class="dnn-hex-color-fields" style={{display: this.hexDisplay}}>
+                        <div class="dnn-hex-color-field">
+                            <label>HEX</label>
+                            <input type="text" value={this.getHex()} />
+                        </div>
+                        <div class="dnn-color-mode-switch">
+                            <button id="hex-switch" onClick={this.switchColorMode.bind(this)}>&#8597;</button>
+                        </div>
+                    </div>
                     <div class="string">
                         <input type="text" 
                             value={this.getHex()}
