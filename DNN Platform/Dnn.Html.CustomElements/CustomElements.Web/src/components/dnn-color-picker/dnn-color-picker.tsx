@@ -199,7 +199,11 @@ export class DnnColorPicker {
                 this.hslDisplay = "none";
                 this.hexDisplay = "none";
                 break;
-            }
+            default:
+                this.rgbDisplay = "flex";
+                this.hslDisplay = "none";
+                this.hexDisplay = "none";
+        }
     }
 
     render() {
