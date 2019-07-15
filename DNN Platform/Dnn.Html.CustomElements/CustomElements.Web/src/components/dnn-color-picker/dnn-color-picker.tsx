@@ -229,7 +229,7 @@ export class DnnColorPicker {
                         />
                     </div>
                     <div class="dnn-color-bar">
-                        <div class="dnn-color-result"></div>
+                        <div class="dnn-color-result" style={{backgroundColor: '#' + this.getHex()}}></div>
                         <div class="dnn-color-hue"
                             ref={(element) => this.hueRange = element as HTMLDivElement}
                             onMouseDown={this.handleHueMouseDown.bind(this)}
