@@ -18,7 +18,10 @@ using System.Threading.Tasks;
 
 namespace DotNetNuke.Entities.Portals
 {
-    class PortalStylesController : IPortalStylesController
+    /// <summary>
+    /// Gets or Sets the portal styles
+    /// </summary>
+    public class PortalStylesController : IPortalStylesController
     {
         private const string PRIMARY_COLOR = "PrimaryColor";
         private const string PRIMARY_COLOR_LIGHT = "PrimaryColorLight";
