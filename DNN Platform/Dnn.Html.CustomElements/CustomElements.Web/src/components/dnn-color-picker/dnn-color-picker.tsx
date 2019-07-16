@@ -3,7 +3,7 @@
  * @license MIT 
  */
 
-import { Component, h, State, Element } from "@stencil/core";
+import { Component, h, State, Element, Prop } from "@stencil/core";
 import { ColorInfo } from '../../utils/ColorInfo';
 
 /** Color Picker for Dnn */
@@ -13,6 +13,8 @@ import { ColorInfo } from '../../utils/ColorInfo';
     shadow: true
 })
 export class DnnColorPicker {
+
+    @Prop() colorBoxHeight: string = "50%";
 
     @Element() el: HTMLElement;
 
@@ -262,6 +264,8 @@ export class DnnColorPicker {
         const red = this.color.red;
         const green = this.color.green;
         const blue = this.color.blue;
+
+        this.el.style.setProperty('--color-box-height', this.colorBoxHeight.toString());
 
         return (
             <div class="dnn-color-picker">
