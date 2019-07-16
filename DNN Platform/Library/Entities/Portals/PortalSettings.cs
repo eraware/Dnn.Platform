@@ -179,93 +179,226 @@ namespace DotNetNuke.Entities.Portals
 
         #region Auto-Properties
 
+        /// <summary>
+        /// The ID of the active tab (page)
+        /// </summary>
         public TabInfo ActiveTab { get; set; }
 
-		public int AdministratorId { get; set; }
+        /// <summary>
+        /// The ID of the user that is this portal administrator
+        /// </summary>
+        public int AdministratorId { get; set; }
 
-		public int AdministratorRoleId { get; set; }
+        /// <summary>
+        /// The dole ID of the Administrators role for this portal
+        /// </summary>
+        public int AdministratorRoleId { get; set; }
 
-		public string AdministratorRoleName { get; set; }
+        /// <summary>
+        /// The role name of the role that has administration rights on the portal (usually Administrators)
+        /// </summary>
+        public string AdministratorRoleName { get; set; }
 
-		public int AdminTabId { get; set; }
+        /// <summary>
+        /// The ID of the tab (page) that contains the administration modules
+        /// </summary>
+        public int AdminTabId { get; set; }
 
-		public string BackgroundFile { get; set; }
+        /// <summary>
+        /// A file that can optionnaly be used as a background image if the theme supports it
+        /// </summary>
+        public string BackgroundFile { get; set; }
 
-		public int BannerAdvertising { get; set; }
+        /// <summary>
+        /// Could be used by the Vendors/Banner module, there is no built-in UI to manage this setting
+        /// </summary>
+        public int BannerAdvertising { get; set; }
 
-		public string CultureCode { get; set; }
+        /// <summary>
+        /// The culture code in a format that represents the language and country as in "fr-CA" for French Canada
+        /// </summary>
+        public string CultureCode { get; set; }
 
-		public string Currency { get; set; }
 
-		public string DefaultLanguage { get; set; }
+        /// <summary>
+        /// The currency used for this portal, in the platform this is used for Paypal subscriptions
+        /// </summary>
+        public string Currency { get; set; }
 
-		public string Description { get; set; }
+        /// <summary>
+        /// The culture code of the default language for this portal
+        /// </summary>
+        public string DefaultLanguage { get; set; }
 
-		public string Email { get; set; }
+        /// <summary>
+        /// The description of the portal, used for seo purposes and rss feeds
+        /// </summary>
+        public string Description { get; set; }
 
+        /// <summary>
+        /// The portal owner email address
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// If used, the portal will expire (stop working) on that date and time
+        /// </summary>
         public DateTime ExpiryDate { get; set; }
 
-		public string FooterText { get; set; }
+        /// <summary>
+        /// Configurable text that can be injected by the theme, usually used for copyright notice and consumed by the copyright skinObject
+        /// [year] in this text will get replaced by the current year.
+        /// </summary>
+        public string FooterText { get; set; }
 
-		public Guid GUID { get; set; }
+        /// <summary>
+        /// A globally unique identifier for this portal, used for such things as encryption and licensing
+        /// </summary>
+        public Guid GUID { get; set; }
 
-		public string HomeDirectory { get; set; }
+        /// <summary>
+        /// The public facing portal home directory (url)
+        /// </summary>
+        public string HomeDirectory { get; set; }
 
-		public string HomeSystemDirectory { get; set; }
+        /// <summary>
+        /// The public facing portal (url) path to the special system directory for that portal
+        /// </summary>
+        public string HomeSystemDirectory { get; set; }
 
-		public int HomeTabId { get; set; }
+        /// <summary>
+        /// The tab (page) ID of the home page of this portal
+        /// </summary>
+        public int HomeTabId { get; set; }
 
-		public float HostFee { get; set; }
+        /// <summary>
+        /// If hosting fees are enabled, this is the amount to charge
+        /// </summary>
+        public float HostFee { get; set; }
 
-		public int HostSpace { get; set; }
+        /// <summary>
+        /// If hosting fees are enabled, this would be the allowed host space for the subscription
+        /// </summary>
+        public int HostSpace { get; set; }
 
-		public string KeyWords { get; set; }
+        /// <summary>
+        /// A string containing keyworks for the built-in seach indexer and search engines
+        /// </summary>
+        public string KeyWords { get; set; }
 
-		public int LoginTabId { get; set; }
+        /// <summary>
+        /// The tab (page) ID of the login page
+        /// </summary>
+        public int LoginTabId { get; set; }
 
-		public string LogoFile { get; set; }
+        /// <summary>
+        /// The logo image file for this portal, can be used by themes and is used by the logo skinObject
+        /// </summary>
+        public string LogoFile { get; set; }
 
-		public int PageQuota { get; set; }
+        /// <summary>
+        /// If hosting fees are enabled, this would be the page quota allowed in the subscription
+        /// </summary>
+        public int PageQuota { get; set; }
 
-		public int Pages { get; set; }
+        /// <summary>
+        /// The number of pages this portal contains
+        /// </summary>
+        public int Pages { get; set; }
 
-		public int PortalId { get; set; }
+        /// <summary>
+        /// The ID of this portal (site)
+        /// </summary>
+        public int PortalId { get; set; }
 
-		public PortalAliasInfo PortalAlias { get; set; }
+        /// <summary>
+        /// The portal alias for this portal
+        /// </summary>
+        public PortalAliasInfo PortalAlias { get; set; }
 
-		public PortalAliasInfo PrimaryAlias { get; set; }
+        /// <summary>
+        /// The default portal alias for this portal
+        /// </summary>
+        public PortalAliasInfo PrimaryAlias { get; set; }
 
-		public string PortalName { get; set; }
+        /// <summary>
+        /// The name of this portal (site), used in menus, messages, logs, etc.
+        /// </summary>
+        public string PortalName { get; set; }
 
-		public int RegisteredRoleId { get; set; }
+        /// <summary>
+        /// The role ID that represents registered users
+        /// </summary>
+        public int RegisteredRoleId { get; set; }
 
-		public string RegisteredRoleName { get; set; }
+        /// <summary>
+        /// The role name that represents registered users
+        /// </summary>
+        public string RegisteredRoleName { get; set; }
 
-		public int RegisterTabId { get; set; }
+        /// <summary>
+        /// The tab (page) id of the registration page
+        /// </summary>
+        public int RegisterTabId { get; set; }
 
+        /// <summary>
+        /// The registration settings for this portal
+        /// </summary>
         public RegistrationSettings Registration { get; set; }
 
+        /// <summary>
+        /// The tab (page) id where the search results are located
+        /// </summary>
         public int SearchTabId { get; set; }
 
         [Obsolete("Deprecated in 8.0.0. Scheduled removal in v10.0.0.")]
         public int SiteLogHistory { get; set; }
 
-		public int SplashTabId { get; set; }
+        /// <summary>
+        /// The id of the tab (page) that is used as a splash page
+        /// </summary>
+        public int SplashTabId { get; set; }
 
-		public int SuperTabId { get; set; }
+        /// <summary>
+        /// The tab (page) id of the SuperUser (Host)
+        /// </summary>
+        public int SuperTabId { get; set; }
 
-		public int UserQuota { get; set; }
+        /// <summary>
+        /// If hosting fees are enabled, this is the page quote of the subscription
+        /// </summary>
+        public int UserQuota { get; set; }
 
-		public int UserRegistration { get; set; }
+        /// <summary>
+        /// This represents the user registration type <see cref="Globals.PortalRegistrationType"/> for the meaning of this integer
+        /// </summary>
+        public int UserRegistration { get; set; }
 
-		public int Users { get; set; }
+        /// <summary>
+        /// The number of users this portal conains
+        /// </summary>
+        public int Users { get; set; }
 
-		public int UserTabId { get; set; }
+        /// <summary>
+        /// The tab (page) ID where the user profile is located
+        /// </summary>
+        public int UserTabId { get; set; }
 
+        /// <summary>
+        /// The tab (page) id where the terms text is located (terms and conditions)
+        /// </summary>
         public int TermsTabId { get; set; }
 
-		public int PrivacyTabId { get; set; }
-        
+        /// <summary>
+        /// The tab (page) id where the privacy text is located (privacy policy)
+        /// </summary>
+        public int PrivacyTabId { get; set; }
+
+        /// <summary>
+        /// The dnn styles for this portal, these get injected on the page top as css custom properties
+        /// </summary>
+        public PortalStyles Styles { get; set; }
+
         #endregion
 
         #region Read-Only Properties
