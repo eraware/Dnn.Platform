@@ -154,15 +154,6 @@
                     padding: 0.5em;
                     padding-left: 1.3em;
                     text-align: center;
-                    &.red{
-                        border-color: red;
-                    }
-                    &.green{
-                        border-color: green;                
-                    }
-                    &.blue{
-                        border-color: blue;
-                    }            
                 }
             }
         }
@@ -205,6 +196,7 @@
                     border: 1px solid #ccc;
                     padding: 0.323em;
                     text-align: center;
+                    background-color: #fff;
                     input{
                         border:0;
                         padding:0;

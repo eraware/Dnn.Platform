@@ -309,19 +309,19 @@ export class DnnColorPicker {
                     <div class="dnn-rgb-color-fields" style={{display: this.rgbDisplay}}>
                         <div class="dnn-rgb-color-field">
                             <label>R</label>
-                            <input type="number" min="0" max="255" step="1" class="red" value={red} aria-label="red value"
+                            <input type="number" min="0" max="255" step="1" value={red} aria-label="red value"
                                 onChange={(e) => this.handleComponentValueChange(e, 'red')}
                             />
                         </div>
                         <div class="dnn-rgb-color-field">
                             <label>G</label>
-                            <input type="number" min="0" max="255" class="green" value={green} aria-label="green value"
+                            <input type="number" min="0" max="255" value={green} aria-label="green value"
                                 onChange={(e) => this.handleComponentValueChange(e, 'green')}
                             />
                         </div>
                         <div class="dnn-rgb-color-field">
                             <label>B</label>
-                            <input type="number" min="0" max="255" class="blue" value={blue} aria-label="blue value"
+                            <input type="number" min="0" max="255" value={blue} aria-label="blue value"
                                 onChange={(e) => this.handleComponentValueChange(e, 'blue')}
                             />
                         </div>
