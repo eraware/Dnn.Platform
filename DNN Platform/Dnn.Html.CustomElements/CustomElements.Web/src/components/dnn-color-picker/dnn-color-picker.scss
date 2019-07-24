@@ -72,8 +72,8 @@
             margin-top: 15px;
             .dnn-color-result {
                 flex-direction: column;
-                width: 50px;
-                height: 50px;
+                width: 2em;
+                height: 2em;
                 border-radius: 50%;
                 background: red;
             }
@@ -118,108 +118,85 @@
             }
         }
     }
-    .dnn-color-fields{
+    .dnn-color-entry{
         display:flex;
-        flex-direction: column;
         justify-content: space-between;
-        .dnn-color-mode-switch {
-            display: flex;
-            align-items: flex-end;
-            padding: .5em;
-            button {
-                background-color: transparent;
-                border: none;
-                svg {
-                    min-width: 3em;
-                    pointer-events: none;
-                    outline: none;
-                }
-            }
-        }
-        .dnn-rgb-color-fields {
-            display: flex;
-            justify-content: space-evenly;
-            .dnn-rgb-color-field {
+        .dnn-color-fields{
+            position: relative;
+            width: 100%;
+            .dnn-color-field-group{
+                position: absolute;
+                width:100%;
                 display: flex;
-                flex-direction: column;
-                flex: auto;
-                text-align: center;
-                padding: .5em;
-                label {
-                    padding-bottom: .25em;
-                }
-                input{
-                    border-radius: var(--dnn-button-radius, 3px);
-                    border: 1px solid #ccc;
-                    padding: 0.5em;
-                    padding-left: 1.3em;
+                flex-wrap: wrap;
+                justify-content: space-evenly;
+                transition: all 300ms;
+                opacity: 0;
+                visibility: hidden;
+                transform: scale(0);                
+                &.visible{
+                    opacity: 1;
+                    transform: scale(1);
+                    visibility: visible;
+                    transition: all 300ms;
+                }                
+                .dnn-color-field{
+                    display:flex;
+                    flex-direction: column;
+                    flex-grow: 1;
                     text-align: center;
-                }
-            }
-        }
-        .dnn-hsl-color-fields {
-            display: flex;
-            justify-content: space-evenly;
-            .dnn-hsl-color-field {
-                display: flex;
-                flex-direction: column;
-                flex: auto;
-                text-align: center;
-                padding: .5em;
-                label {
-                    padding-bottom: .25em;
-                }
-                input{
-                    border-radius: var(--dnn-button-radius, 3px);
-                    border: 1px solid #ccc;
-                    padding: 0.5em;
-                    padding-left: 1.3em;
-                    text-align: center;
-                }
-            }
-        }
-        .dnn-hex-color-fields {
-            display: flex;
-            justify-content: space-evenly;
-            .dnn-hex-color-field {
-                display: flex;
-                flex-direction: column;
-                flex: auto;
-                text-align: center;
-                padding: .5em;
-                label {
-                    padding-bottom: .25em;
-                }
-                .hex-input{
-                    position: relative;
-                    border-radius: var(--dnn-button-radius, 3px);
-                    border: 1px solid #ccc;
-                    padding: 0.323em;
-                    text-align: center;
-                    background-color: #fff;
-                    input{
-                        border:0;
-                        padding:0;
-                        margin:0;
-                        width:100%;
-                        height:100%;
-                        text-align:center;
+                    margin: 0.5em;
+                    label{
+                        padding-top: 0.25em;
                     }
-                    button{
-                        position: absolute;
-                        height: 100%;
-                        top: 0;
-                        right: 1em;
-                        background-color: transparent;
-                        border:0;
-                        padding:0;
-                        margin:0;
-                        svg{
-                            min-width: 1em;
+                    dnn-input-number{
+                        padding-top: 0.25em;
+                        height: 2em;
+                    }
+                    .hex-input {
+                        text-align: center;
+                        position: relative;
+                        height: 2em;
+                        border: 1px solid #ccc;
+                        margin: 0.25em auto;
+                        background-color:white;
+                        border-radius: var(--dnn-button-radius, 3px);                        
+                        input{
+                            width: 100%;
+                            height: 100%;
+                            text-align: center;
+                            border: transparent;
+                            background:transparent;
+                        }
+                        button{
+                            position: absolute;
+                            right: 0.25em;
+                            top: 0;
+                            margin: 0;
+                            padding: 0;
+                            border: 0;
+                            background-color: transparent;
+                            height: 100%;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            svg{
+                                width: 1em;
+                            }
                         }
                     }
                 }
             }
-        }        
+        }
+        .dnn-color-mode-switch{
+            padding-top: 2em;
+            button{
+                border: none;
+                background: transparent;
+                svg{
+                    min-width: 3em;
+                }
+            }
+        }
     }
 }
