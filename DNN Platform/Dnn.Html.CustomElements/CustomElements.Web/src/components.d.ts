@@ -12,6 +12,36 @@ export namespace Components {
   interface DnnColorPicker {
     'colorBoxHeight': string;
   }
+  interface DnnInputNumber {
+    /**
+    * defined the aria label for screen readers using this control
+    */
+    'ariaLabel': string;
+    /**
+    * the maximum value
+    */
+    'max': number;
+    /**
+    * the minimum value
+    */
+    'min': number;
+    /**
+    * determines the multiplier to use when using the controls with shift held down
+    */
+    'shiftMultiplier': number;
+    /**
+    * the amount to change the value when incrementing or decrementing
+    */
+    'step': number;
+    /**
+    * determines if the mouse wheel is used to change values
+    */
+    'useWheel': boolean;
+    /**
+    * the default value
+    */
+    'value': number;
+  }
 }
 
 declare global {
@@ -22,8 +52,15 @@ declare global {
     prototype: HTMLDnnColorPickerElement;
     new (): HTMLDnnColorPickerElement;
   };
+
+  interface HTMLDnnInputNumberElement extends Components.DnnInputNumber, HTMLStencilElement {}
+  var HTMLDnnInputNumberElement: {
+    prototype: HTMLDnnInputNumberElement;
+    new (): HTMLDnnInputNumberElement;
+  };
   interface HTMLElementTagNameMap {
     'dnn-color-picker': HTMLDnnColorPickerElement;
+    'dnn-input-number': HTMLDnnInputNumberElement;
   }
 }
 
@@ -31,9 +68,44 @@ declare namespace LocalJSX {
   interface DnnColorPicker extends JSXBase.HTMLAttributes<HTMLDnnColorPickerElement> {
     'colorBoxHeight'?: string;
   }
+  interface DnnInputNumber extends JSXBase.HTMLAttributes<HTMLDnnInputNumberElement> {
+    /**
+    * defined the aria label for screen readers using this control
+    */
+    'ariaLabel'?: string;
+    /**
+    * the maximum value
+    */
+    'max'?: number;
+    /**
+    * the minimum value
+    */
+    'min'?: number;
+    /**
+    * fires when the value has changed
+    */
+    'onChange'?: (event: CustomEvent<any>) => void;
+    /**
+    * determines the multiplier to use when using the controls with shift held down
+    */
+    'shiftMultiplier'?: number;
+    /**
+    * the amount to change the value when incrementing or decrementing
+    */
+    'step'?: number;
+    /**
+    * determines if the mouse wheel is used to change values
+    */
+    'useWheel'?: boolean;
+    /**
+    * the default value
+    */
+    'value'?: number;
+  }
 
   interface IntrinsicElements {
     'dnn-color-picker': DnnColorPicker;
+    'dnn-input-number': DnnInputNumber;
   }
 }
 

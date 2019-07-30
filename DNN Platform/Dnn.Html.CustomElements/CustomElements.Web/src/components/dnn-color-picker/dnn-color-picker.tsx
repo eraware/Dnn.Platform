@@ -6,6 +6,12 @@
 import { Component, h, State, Element, Prop } from "@stencil/core";
 import { ColorInfo } from '../../utils/ColorInfo';
 
+const enum DisplayMode {
+    rgb,
+    hex,
+    hsl
+}
+
 /** Color Picker for Dnn */
 @Component({
     tag: 'dnn-color-picker',
@@ -16,20 +22,42 @@ export class DnnColorPicker {
 
     @Prop() colorBoxHeight: string = "50%";
 
+    @State() color: ColorInfo;
+    @State() displayMode: DisplayMode;
+    @State() componentWidth: number;
+
     @Element() el: HTMLElement;
 
     private saturationLightnessBox?: HTMLDivElement;
     private hueRange?: HTMLDivElement;
-
-    @State() color: ColorInfo;
-    @State() rgbDisplay: string = "flex";
-    @State() hslDisplay: string = "none";
-    @State() hexDisplay: string = "none";
+    private switchDisplayModeLabel?: String;
+    private breakPoint = 330;
 
     componentWillLoad() {
         this.color = new ColorInfo();
+        this.displayMode = DisplayMode.rgb;
+        this.switchDisplayModeLabel = "swith to hexadecimal entry mode";
+        this.updateComponentWidth();
+        window.addEventListener('resize', this.updateComponentWidth);
     }
-    
+
+    componentWillUpdate() {
+        this.updateComponentWidth();
+    }
+
+    conponentWillUnload() {
+        window.removeEventListener('resize', this.updateComponentWidth);
+    }
+
+    updateComponentWidth = () => {
+        const container = this.el.shadowRoot.querySelector('.dnn-color-entry');
+        if (!container) { return }
+        const newWidth = container.getBoundingClientRect().width;
+        if (this.componentWidth !== newWidth){
+            this.componentWidth = newWidth;
+        }
+    }
+
     getHex() {
        return this.getDoublet(this.color.red) + this.getDoublet(this.color.green) + this.getDoublet(this.color.blue);
     }
@@ -102,7 +130,7 @@ export class DnnColorPicker {
     }
 
     handleComponentValueChange = (e, channel) => {
-        let value = parseInt(e.target.value);
+        let value = parseInt(e.detail);
         if (isNaN(value)) { return }
         const newColor = new ColorInfo();
         if (value){
@@ -131,7 +159,7 @@ export class DnnColorPicker {
         this.color = newColor;
     }
 
-    handleHSLChange = (e, component) => {        
+    handleHSLChange = (e, component) => {    
         let value = parseInt(e.target.value);
         if (isNaN(value)) {return}
         const newColor = new ColorInfo();
@@ -185,27 +213,21 @@ export class DnnColorPicker {
         this.color = newColor;
     }
 
-    switchColorMode(e) {
-        switch(e.target.id) {
-            case "rgb-switch":
-                this.rgbDisplay = "none";
-                this.hslDisplay = "none";
-                this.hexDisplay = "flex";
+    handleSwitchDisplayModeClick(){
+        switch (this.displayMode) {
+            case DisplayMode.rgb:
+                this.displayMode = DisplayMode.hex;
+                this.switchDisplayModeLabel = "switch to hue, saturation, lightness entry mode";
                 break;
-            case "hex-switch":
-                this.rgbDisplay = "none";
-                this.hslDisplay = "flex";
-                this.hexDisplay = "none";
+            case DisplayMode.hex:
+                this.displayMode = DisplayMode.hsl;
+                this.switchDisplayModeLabel = "switch to red, green, blue entry mode";
                 break;
-            case "hsl-switch":
-                this.rgbDisplay = "flex";
-                this.hslDisplay = "none";
-                this.hexDisplay = "none";
-                break;
+            case DisplayMode.hsl:
+                this.displayMode = DisplayMode.rgb;
+                this.switchDisplayModeLabel = "switch to hexadecimal entry mode"
             default:
-                this.rgbDisplay = "flex";
-                this.hslDisplay = "none";
-                this.hexDisplay = "none";
+                break;
         }
     }
 
@@ -257,6 +279,10 @@ export class DnnColorPicker {
         this.color = newColor;
     }
 
+    handleCopyValue = () => {
+        navigator.clipboard.writeText("#" + this.getHex());
+    }
+
     render() {
         const hue = this.color.hue;
         const saturation = this.color.saturation;
@@ -305,79 +331,72 @@ export class DnnColorPicker {
                         </div>
                     </div>
                 </div>
-                <div class="dnn-color-fields">
-                    <div class="dnn-rgb-color-fields" style={{display: this.rgbDisplay}}>
-                        <div class="dnn-rgb-color-field">
-                            <label>R</label>
-                            <input type="number" min="0" max="255" step="1" value={red} aria-label="red value"
-                                onChange={(e) => this.handleComponentValueChange(e, 'red')}
-                            />
-                        </div>
-                        <div class="dnn-rgb-color-field">
-                            <label>G</label>
-                            <input type="number" min="0" max="255" value={green} aria-label="green value"
-                                onChange={(e) => this.handleComponentValueChange(e, 'green')}
-                            />
-                        </div>
-                        <div class="dnn-rgb-color-field">
-                            <label>B</label>
-                            <input type="number" min="0" max="255" value={blue} aria-label="blue value"
-                                onChange={(e) => this.handleComponentValueChange(e, 'blue')}
-                            />
-                        </div>
-                        <div class="dnn-color-mode-switch">
-                            <button id="rgb-switch" onClick={this.switchColorMode.bind(this)} aria-label="switch to hexadecimal value entry">
-                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="retweet" class="svg-inline--fa fa-retweet fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M629.657 343.598L528.971 444.284c-9.373 9.372-24.568 9.372-33.941 0L394.343 343.598c-9.373-9.373-9.373-24.569 0-33.941l10.823-10.823c9.562-9.562 25.133-9.34 34.419.492L480 342.118V160H292.451a24.005 24.005 0 0 1-16.971-7.029l-16-16C244.361 121.851 255.069 96 276.451 96H520c13.255 0 24 10.745 24 24v222.118l40.416-42.792c9.285-9.831 24.856-10.054 34.419-.492l10.823 10.823c9.372 9.372 9.372 24.569-.001 33.941zm-265.138 15.431A23.999 23.999 0 0 0 347.548 352H160V169.881l40.416 42.792c9.286 9.831 24.856 10.054 34.419.491l10.822-10.822c9.373-9.373 9.373-24.569 0-33.941L144.971 67.716c-9.373-9.373-24.569-9.373-33.941 0L10.343 168.402c-9.373 9.373-9.373 24.569 0 33.941l10.822 10.822c9.562 9.562 25.133 9.34 34.419-.491L96 169.881V392c0 13.255 10.745 24 24 24h243.549c21.382 0 32.09-25.851 16.971-40.971l-16.001-16z"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="dnn-hsl-color-fields" style={{display: this.hslDisplay}}>
-                        <div class="dnn-hsl-color-field">
-                            <label>H</label>
-                            <input type="number" min="0" max="359" step={1} value={Math.round(hue)} aria-label="Hue"
-                                onChange={(e) => this.handleHSLChange(e, 'hue')}
-                            />
-                        </div>
-                        <div class="dnn-hsl-color-field">
-                            <label>S</label>
-                            <input type="number" min="0" max="100" step={1} value={Math.round(saturation*100)} aria-label="Saturation"
-                                onChange={(e) => this.handleHSLChange(e, 'saturation')}
-                            />
-                        </div>
-                        <div class="dnn-hsl-color-field">
-                            <label>L</label>
-                            <input type="number" min="0" max="100" step={1} value={Math.round(lightness*100)} aria-label="Lightness"
-                                onChange={(e) => this.handleHSLChange(e, 'lightness')}
-                            />
-                        </div>
-                        <div class="dnn-color-mode-switch">
-                            <button id="hsl-switch" onClick={this.switchColorMode.bind(this)} aria-label="Sitch to red, green, blue entry mode">
-                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="retweet" class="svg-inline--fa fa-retweet fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M629.657 343.598L528.971 444.284c-9.373 9.372-24.568 9.372-33.941 0L394.343 343.598c-9.373-9.373-9.373-24.569 0-33.941l10.823-10.823c9.562-9.562 25.133-9.34 34.419.492L480 342.118V160H292.451a24.005 24.005 0 0 1-16.971-7.029l-16-16C244.361 121.851 255.069 96 276.451 96H520c13.255 0 24 10.745 24 24v222.118l40.416-42.792c9.285-9.831 24.856-10.054 34.419-.492l10.823 10.823c9.372 9.372 9.372 24.569-.001 33.941zm-265.138 15.431A23.999 23.999 0 0 0 347.548 352H160V169.881l40.416 42.792c9.286 9.831 24.856 10.054 34.419.491l10.822-10.822c9.373-9.373 9.373-24.569 0-33.941L144.971 67.716c-9.373-9.373-24.569-9.373-33.941 0L10.343 168.402c-9.373 9.373-9.373 24.569 0 33.941l10.822 10.822c9.562 9.562 25.133 9.34 34.419-.491L96 169.881V392c0 13.255 10.745 24 24 24h243.549c21.382 0 32.09-25.851 16.971-40.971l-16.001-16z"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="dnn-hex-color-fields" style={{display: this.hexDisplay}}>
-                        <div class="dnn-hex-color-field">
-                            <label>HEX</label>
-                            <div class="hex-input">
-                                <input type="text" aria-label="Hexadecimal value"
-                                    value={this.getHex()}
-                                    onChange={(e) => this.handleHexChange(e)}
+                <div class="dnn-color-entry">
+                    <div class="dnn-color-fields">
+                        <div class={this.displayMode === DisplayMode.rgb ? "dnn-color-field-group visible" : "dnn-color-field-group"}
+                            style={{flexDirection: this.componentWidth < this.breakPoint ? 'column' : 'row'}}
+                        >
+                            <div class="dnn-color-field">
+                                <label>R</label>
+                                <dnn-input-number value={red} min={0} max={255} use-wheel={true} aria-label="red value" 
+                                    onChange={(e) => this.handleComponentValueChange(e, 'red')}
+                                />                                
+                            </div>
+                            <div class="dnn-color-field">
+                                <label>G</label>
+                                <dnn-input-number value={green} min={0} max={255} use-wheel={true} aria-label="green value" 
+                                    onChange={(e) => this.handleComponentValueChange(e, 'green')}
                                 />
-                                <button class="copy" aria-label="copy value">
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg>
-                                </button>
+                            </div>
+                            <div class="dnn-color-field">
+                                <label>B</label>
+                                <dnn-input-number value={blue} min={0} max={255} use-wheel={true} aria-label="blue value" 
+                                    onChange={(e) => this.handleComponentValueChange(e, 'blue')}
+                                />
+                            </div>                        
+                        </div>
+                        <div class={this.displayMode === DisplayMode.hex ? "dnn-color-field-group visible" : "dnn-color-field-group"}
+                            style={{flexDirection: this.componentWidth < this.breakPoint ? 'column' : 'row'}}
+                        >
+                            <div class="dnn-color-field">
+                                <label>H</label>
+                                <dnn-input-number value={Math.round(hue)} min={0} max={359} aria-label="Hue"
+                                    onChange = {(e) => this.handleHSLChange(e, 'hue')} />
+                            </div>
+                            <div class="dnn-color-field">
+                                <label>S</label>
+                                <dnn-input-number min={0} max={100} step={1} value={Math.round(saturation*100)} aria-label="Saturation"
+                                    onChange={(e) => this.handleHSLChange(e, 'saturation')}
+                                />
+                            </div>
+                            <div class="dnn-color-field">
+                                <label>L</label>
+                                <dnn-input-number min={0} max={100} step={1} value={Math.round(lightness*100)} aria-label="Lightness"
+                                    onChange={(e) => this.handleHSLChange(e, 'lightness')}
+                                />
                             </div>
                         </div>
-                        <div class="dnn-color-mode-switch">
-                            <button id="hex-switch" onClick={this.switchColorMode.bind(this)} aria-label="Switch to hue saturation lightness values">
-                                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="retweet" class="svg-inline--fa fa-retweet fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M629.657 343.598L528.971 444.284c-9.373 9.372-24.568 9.372-33.941 0L394.343 343.598c-9.373-9.373-9.373-24.569 0-33.941l10.823-10.823c9.562-9.562 25.133-9.34 34.419.492L480 342.118V160H292.451a24.005 24.005 0 0 1-16.971-7.029l-16-16C244.361 121.851 255.069 96 276.451 96H520c13.255 0 24 10.745 24 24v222.118l40.416-42.792c9.285-9.831 24.856-10.054 34.419-.492l10.823 10.823c9.372 9.372 9.372 24.569-.001 33.941zm-265.138 15.431A23.999 23.999 0 0 0 347.548 352H160V169.881l40.416 42.792c9.286 9.831 24.856 10.054 34.419.491l10.822-10.822c9.373-9.373 9.373-24.569 0-33.941L144.971 67.716c-9.373-9.373-24.569-9.373-33.941 0L10.343 168.402c-9.373 9.373-9.373 24.569 0 33.941l10.822 10.822c9.562 9.562 25.133 9.34 34.419-.491L96 169.881V392c0 13.255 10.745 24 24 24h243.549c21.382 0 32.09-25.851 16.971-40.971l-16.001-16z"/></svg>
-                            </button>
-                        </div>
+                        <div class={this.displayMode === DisplayMode.hsl ? "dnn-color-field-group visible" : "dnn-color-field-group"}>
+                            <div class="dnn-color-field">
+                                <label>HEX</label>
+                                <div class="hex-input">
+                                    <input type="text" size={10} aria-label="Hexadecimal value"
+                                        value={this.getHex()}
+                                        onChange={(e) => this.handleHexChange(e)}
+                                    />
+                                    <button class="copy" aria-label="copy value" onClick={() => this.handleCopyValue()}>
+                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>                    
                     </div>
-                    
+                    <div class="dnn-color-mode-switch">
+                        <button id="rgb-switch" onClick={this.handleSwitchDisplayModeClick.bind(this)} aria-label={this.switchDisplayModeLabel}>
+                            <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="retweet" class="svg-inline--fa fa-retweet fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M629.657 343.598L528.971 444.284c-9.373 9.372-24.568 9.372-33.941 0L394.343 343.598c-9.373-9.373-9.373-24.569 0-33.941l10.823-10.823c9.562-9.562 25.133-9.34 34.419.492L480 342.118V160H292.451a24.005 24.005 0 0 1-16.971-7.029l-16-16C244.361 121.851 255.069 96 276.451 96H520c13.255 0 24 10.745 24 24v222.118l40.416-42.792c9.285-9.831 24.856-10.054 34.419-.492l10.823 10.823c9.372 9.372 9.372 24.569-.001 33.941zm-265.138 15.431A23.999 23.999 0 0 0 347.548 352H160V169.881l40.416 42.792c9.286 9.831 24.856 10.054 34.419.491l10.822-10.822c9.373-9.373 9.373-24.569 0-33.941L144.971 67.716c-9.373-9.373-24.569-9.373-33.941 0L10.343 168.402c-9.373 9.373-9.373 24.569 0 33.941l10.822 10.822c9.562 9.562 25.133 9.34 34.419-.491L96 169.881V392c0 13.255 10.745 24 24 24h243.549c21.382 0 32.09-25.851 16.971-40.971l-16.001-16z"/></svg>
+                        </button>
+                    </div>
                 </div>
-
             </div>
         );
     }
