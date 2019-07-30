@@ -5,6 +5,7 @@
 
 import { Component, h, State, Element, Prop } from "@stencil/core";
 import { ColorInfo } from '../../utils/ColorInfo';
+import { Strings } from './dnn-color-picker.i18n';
 
 const enum DisplayMode {
     rgb,
@@ -25,6 +26,7 @@ export class DnnColorPicker {
     @State() color: ColorInfo;
     @State() displayMode: DisplayMode;
     @State() componentWidth: number;
+    @State() strings = new Strings();
 
     @Element() el: HTMLElement;
 
@@ -36,7 +38,7 @@ export class DnnColorPicker {
     componentWillLoad() {
         this.color = new ColorInfo();
         this.displayMode = DisplayMode.rgb;
-        this.switchDisplayModeLabel = "swith to hexadecimal entry mode";
+        this.switchDisplayModeLabel = this.strings.switchDisplayModeLabelHex;
         this.updateComponentWidth();
         window.addEventListener('resize', this.updateComponentWidth);
     }
@@ -217,15 +219,15 @@ export class DnnColorPicker {
         switch (this.displayMode) {
             case DisplayMode.rgb:
                 this.displayMode = DisplayMode.hex;
-                this.switchDisplayModeLabel = "switch to hue, saturation, lightness entry mode";
+                this.switchDisplayModeLabel = this.strings.switchDisplayModeLabelHsl;
                 break;
             case DisplayMode.hex:
                 this.displayMode = DisplayMode.hsl;
-                this.switchDisplayModeLabel = "switch to red, green, blue entry mode";
+                this.switchDisplayModeLabel = this.strings.switchDisplayModeLabelRgb;
                 break;
             case DisplayMode.hsl:
                 this.displayMode = DisplayMode.rgb;
-                this.switchDisplayModeLabel = "switch to hexadecimal entry mode"
+                this.switchDisplayModeLabel = this.strings.switchDisplayModeLabelHex;
             default:
                 break;
         }
@@ -301,11 +303,11 @@ export class DnnColorPicker {
                         onMouseDown={this.handleSaturationLightnessMouseDown.bind(this)}
                     >
                         <button class="dnn-s-b-picker"
-                            aria-label="Press up or down to adjust lightness, left or right to adjust saturation, hold shift to move by 10%"
+                            aria-label={this.strings.saturationBrightnessArialLabel}
                             role="slider"
                             aria-valuemin="0"
                             aria-valuemax="100"
-                            aria-valuetext={`Saturation: ${Math.round(this.color.saturation*100)}%, Lightness: ${Math.round(this.color.lightness*100)}%`}
+                            aria-valuetext={`${this.strings.saturation}: ${Math.round(this.color.saturation*100)}%, ${this.strings.lightness}: ${Math.round(this.color.lightness*100)}%`}
                             style={{
                                 left: Math.round(saturation * 100)  + "%",
                                 bottom: Math.round(lightness * 100)  + "%"
@@ -320,7 +322,7 @@ export class DnnColorPicker {
                             onMouseDown={this.handleHueMouseDown.bind(this)}
                         >
                             <button class="dnn-hue-picker"
-                                aria-label="Press left or right to adjust hue, hold shift to move by 10 degrees"
+                                aria-label={this.strings.huePickerAriaLabel}
                                 role="slider"
                                 aria-valuemin="0"
                                 aria-valuemax="359"
@@ -338,19 +340,19 @@ export class DnnColorPicker {
                         >
                             <div class="dnn-color-field">
                                 <label>R</label>
-                                <dnn-input-number value={red} min={0} max={255} use-wheel={true} aria-label="red value" 
+                                <dnn-input-number value={red} min={0} max={255} use-wheel={true} aria-label={this.strings.redValue} 
                                     onChange={(e) => this.handleComponentValueChange(e, 'red')}
                                 />                                
                             </div>
                             <div class="dnn-color-field">
                                 <label>G</label>
-                                <dnn-input-number value={green} min={0} max={255} use-wheel={true} aria-label="green value" 
+                                <dnn-input-number value={green} min={0} max={255} use-wheel={true} aria-label={this.strings.greenValue}
                                     onChange={(e) => this.handleComponentValueChange(e, 'green')}
                                 />
                             </div>
                             <div class="dnn-color-field">
                                 <label>B</label>
-                                <dnn-input-number value={blue} min={0} max={255} use-wheel={true} aria-label="blue value" 
+                                <dnn-input-number value={blue} min={0} max={255} use-wheel={true} aria-label={this.strings.greenValue}
                                     onChange={(e) => this.handleComponentValueChange(e, 'blue')}
                                 />
                             </div>                        
@@ -360,18 +362,18 @@ export class DnnColorPicker {
                         >
                             <div class="dnn-color-field">
                                 <label>H</label>
-                                <dnn-input-number value={Math.round(hue)} min={0} max={359} aria-label="Hue"
+                                <dnn-input-number value={Math.round(hue)} min={0} max={359} aria-label={this.strings.hue}
                                     onChange = {(e) => this.handleHSLChange(e, 'hue')} />
                             </div>
                             <div class="dnn-color-field">
                                 <label>S</label>
-                                <dnn-input-number min={0} max={100} step={1} value={Math.round(saturation*100)} aria-label="Saturation"
+                                <dnn-input-number min={0} max={100} step={1} value={Math.round(saturation*100)} aria-label={this.strings.saturation}
                                     onChange={(e) => this.handleHSLChange(e, 'saturation')}
                                 />
                             </div>
                             <div class="dnn-color-field">
                                 <label>L</label>
-                                <dnn-input-number min={0} max={100} step={1} value={Math.round(lightness*100)} aria-label="Lightness"
+                                <dnn-input-number min={0} max={100} step={1} value={Math.round(lightness*100)} aria-label={this.strings.lightness}
                                     onChange={(e) => this.handleHSLChange(e, 'lightness')}
                                 />
                             </div>
@@ -380,11 +382,11 @@ export class DnnColorPicker {
                             <div class="dnn-color-field">
                                 <label>HEX</label>
                                 <div class="hex-input">
-                                    <input type="text" size={10} aria-label="Hexadecimal value"
+                                    <input type="text" size={10} aria-label={this.strings.hexadecimalValue}
                                         value={this.getHex()}
                                         onChange={(e) => this.handleHexChange(e)}
                                     />
-                                    <button class="copy" aria-label="copy value" onClick={() => this.handleCopyValue()}>
+                                    <button class="copy" aria-label={this.strings.copyValue} onClick={() => this.handleCopyValue()}>
                                         <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="copy" class="svg-inline--fa fa-copy fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M320 448v40c0 13.255-10.745 24-24 24H24c-13.255 0-24-10.745-24-24V120c0-13.255 10.745-24 24-24h72v296c0 30.879 25.121 56 56 56h168zm0-344V0H152c-13.255 0-24 10.745-24 24v368c0 13.255 10.745 24 24 24h272c13.255 0 24-10.745 24-24V128H344c-13.2 0-24-10.8-24-24zm120.971-31.029L375.029 7.029A24 24 0 0 0 358.059 0H352v96h96v-6.059a24 24 0 0 0-7.029-16.97z"></path></svg>
                                     </button>
                                 </div>

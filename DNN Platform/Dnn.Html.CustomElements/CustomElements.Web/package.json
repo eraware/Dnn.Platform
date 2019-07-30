@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "stencil build --docs",
+    "postbuild": "ts-node --project build/tsconfig.json ./build/generateResources.ts",
     "start": "stencil build --dev --watch --serve",
     "test": "stencil test --spec --e2e",
     "test.watch": "stencil test --spec --e2e --watchAll"
@@ -24,11 +25,15 @@
     "@stencil/core": "^1.0.7",
     "@stencil/sass": "^1.0.1",
     "@types/dom-inputevent": "^1.0.5",
+    "@types/glob": "^7.1.1",
     "@types/jest": "24.0.15",
+    "@types/node": "^12.6.8",
     "@types/puppeteer": "1.12.4",
+    "glob": "^7.1.4",
     "jest": "24.8.0",
     "jest-cli": "24.8.0",
-    "puppeteer": "1.17.0"
+    "puppeteer": "1.17.0",
+    "ts-node": "^8.3.0"
   },
   "license": "MIT"
 }
